@@ -55,8 +55,8 @@ class ForecastFragment : BaseFragment() {
         myViewModel.cityName.observe(viewLifecycleOwner, Observer {
             Log.d("forecast fragment observer", it)
         })
+
         val cityName = myViewModel.getCityName()
-//        val cityName = myViewModel.cityName.toString()
         Log.d("forecast fragment", cityName)
         binding.cityForecast.text = "$cityName forecast"
         myViewModel.getForecast(cityName)
