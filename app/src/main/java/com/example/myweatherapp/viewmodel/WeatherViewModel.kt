@@ -20,6 +20,23 @@ class WeatherViewModel(
     private val _cityForecast : MutableLiveData<ResultState> = MutableLiveData(ResultState.LOADING)
     val cityForecast : LiveData<ResultState> get() = _cityForecast
 
+    private var _cityName : MutableLiveData<String> = MutableLiveData()
+    val cityName : LiveData<String> get() = _cityName
+
+//    var cityName: String? = null
+
+
+    fun setCityName(city: String) {
+//        _cityName.postValue(city)
+        _cityName.value = city
+        Log.d("view model fragment to string", _cityName.value.toString())
+        Log.d("view model fragment", cityName.value.toString())
+    }
+
+    fun getCityName(): String {
+        return cityName.value.toString()
+    }
+
     fun getForecast(city: String) {
         viewModelScope.launch(dispatcher) {
             // in worker thread

@@ -9,7 +9,8 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 
 class WeatherAdapter(
-    private val forecastList: MutableList<Forecast> = mutableListOf()
+    private val forecastList: MutableList<Forecast> = mutableListOf(),
+    private val onForecastClicked: (Forecast) -> Unit
 ) : RecyclerView.Adapter<WeatherViewHolder>(){
 
     fun setForecast(newForecast: List<Forecast>) {
@@ -24,7 +25,7 @@ class WeatherAdapter(
             parent,
             false
         )
-        return WeatherViewHolder(view)
+        return WeatherViewHolder(view, onForecastClicked)
     }
 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) =
@@ -34,7 +35,8 @@ class WeatherAdapter(
 }
 
 class WeatherViewHolder(
-    private val binding: ForecastItemBinding
+    private val binding: ForecastItemBinding,
+    private val onForecastClicked: (Forecast) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun kelvinToFahrenheit(kelvin: Double): Double {
@@ -55,6 +57,10 @@ class WeatherViewHolder(
         binding.temperature.text = "$finalTemp\u2109"
         binding.dateTime.text = forecast.dtTxt
         binding.feelsLike.text = "$finalFeelsLike\u2109"
+
+        binding.forecastItem.setOnClickListener {
+            onForecastClicked.invoke(forecast)
+        }
 
 //        binding.description.text = forecast.weather.firstOrNull()?.description
     }

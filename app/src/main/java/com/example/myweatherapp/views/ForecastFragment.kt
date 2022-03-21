@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myweatherapp.MainActivity
 import com.example.myweatherapp.R
 import com.example.myweatherapp.adapter.WeatherAdapter
 import com.example.myweatherapp.databinding.FragmentForecastBinding
@@ -23,7 +25,9 @@ class ForecastFragment : BaseFragment() {
     }
 
     private val weatherAdapter by lazy {
-        WeatherAdapter()
+        WeatherAdapter(onForecastClicked = {
+            findNavController().navigate(R.id.action_forecastFragment_to_detailsFragment)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +40,7 @@ class ForecastFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
 
+        Log.d("forecast fragent", "on create view")
         binding.myRecycler.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -47,7 +52,12 @@ class ForecastFragment : BaseFragment() {
         }
 
         myViewModel.cityForecast.observe(viewLifecycleOwner, ::handleState)
-        val cityName = "Atlanta"
+        myViewModel.cityName.observe(viewLifecycleOwner, Observer {
+            Log.d("forecast fragment observer", it)
+        })
+        val cityName = myViewModel.getCityName()
+//        val cityName = myViewModel.cityName.toString()
+        Log.d("forecast fragment", cityName)
         binding.cityForecast.text = "$cityName forecast"
         myViewModel.getForecast(cityName)
 
