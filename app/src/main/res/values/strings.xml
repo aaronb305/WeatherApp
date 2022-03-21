@@ -8,4 +8,5 @@
     <string name="temperature">Temp:</string>
     <string name="feels_like">Feels like:</string>
     <string name="date_and_time">Date and time:</string>
+    <string name="back">Back</string>
 </resources>

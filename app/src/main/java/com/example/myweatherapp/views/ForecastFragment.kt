@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myweatherapp.R
 import com.example.myweatherapp.adapter.WeatherAdapter
@@ -51,6 +52,14 @@ class ForecastFragment : BaseFragment() {
         myViewModel.getForecast(cityName)
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.returnToSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_forecastFragment_to_searchFragment)
+        }
     }
 
     private fun handleState(resultState: ResultState) {
