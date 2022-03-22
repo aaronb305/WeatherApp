@@ -53,7 +53,5 @@ class WeatherViewHolder(
         binding.forecastItem.setOnClickListener {
             onForecastClicked.invoke(forecast)
         }
-
-//        binding.description.text = forecast.weather.firstOrNull()?.description
     }
 }

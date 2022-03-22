@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myweatherapp.model.Forecast
 import com.example.myweatherapp.model.Results
 import com.example.myweatherapp.rest.WeatherRepository
+import com.example.myweatherapp.rest.WeatherRepositoryImpl
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,11 +19,17 @@ class WeatherViewModel(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
+    init {
+        Log.d("VIEWMODEL", "CREATINGG VIEWMODEL")
+    }
+
     private val _cityForecast : MutableLiveData<ResultState> = MutableLiveData(ResultState.LOADING)
     val cityForecast : LiveData<ResultState> get() = _cityForecast
 
     private var _cityName : MutableLiveData<String> = MutableLiveData()
     val cityName : LiveData<String> get() = _cityName
+
+//    private var _cityName : String? = null
 
     private var _forecast : MutableLiveData<Forecast> = MutableLiveData()
     val forecast : LiveData<Forecast> get() = _forecast
@@ -32,17 +39,16 @@ class WeatherViewModel(
         _forecast.value = forecast
     }
 
-    fun getForecast() : Forecast? = forecast.value
+    fun getChosenForecast() : Forecast? = forecast.value
 
     fun setCityName(city: String) {
 //        _cityName.postValue(city)
         _cityName.value = city
         Log.d("view model fragment to string", _cityName.value.toString())
-        Log.d("view model fragment", cityName.value.toString())
     }
 
     fun getCityName(): String {
-        return cityName.value.toString()
+        return cityName.value ?: ""
     }
 
     fun getForecast(city: String) {
@@ -68,5 +74,10 @@ class WeatherViewModel(
                 _cityForecast.postValue(ResultState.ERROR(error))
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("VIEWMODEL", "viewmodel destroyed")
     }
 }
