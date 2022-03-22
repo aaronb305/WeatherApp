@@ -1,10 +1,12 @@
 package com.example.myweatherapp.views
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.myweatherapp.MainActivity
 import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.FragmentForecastDetailsBinding
@@ -29,8 +31,9 @@ class ForecastDetailsFragment : BaseFragment() {
     ): View? {
 
         val chosenForecast = myViewModel.getChosenForecast()
-        val cityName =  myViewModel.getCityName()
-
+        val cityName =  myViewModel.getCityName().replaceFirstChar {
+            it.uppercase()
+        }
         binding.nameCity.text = cityName
         binding.dateTime.text = "Date and time: " + chosenForecast?.dtTxt
 
@@ -43,9 +46,21 @@ class ForecastDetailsFragment : BaseFragment() {
         binding.temp.text = "Temperature: $temp\u2109"
 
         binding.description.text = "Description: " + chosenForecast?.weather?.get(0)?.description
-        binding.humidity.text = "Humidity: " + chosenForecast?.main?.humidity.toString()
+        binding.humidity.text = "Humidity: " + chosenForecast?.main?.humidity.toString() + "%"
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        binding.backToSearch.setOnClickListener {
+            findNavController().navigate(R.id.action_detailsFragment_to_searchFragment)
+        }
+
+        binding.backToForecast.setOnClickListener {
+            findNavController().navigate(R.id.action_detailsFragment_to_forecastFragment)
+        }
     }
 
     companion object {
