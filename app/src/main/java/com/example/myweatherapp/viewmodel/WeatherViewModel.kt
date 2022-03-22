@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myweatherapp.model.Forecast
 import com.example.myweatherapp.model.Results
 import com.example.myweatherapp.rest.WeatherRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,8 +24,15 @@ class WeatherViewModel(
     private var _cityName : MutableLiveData<String> = MutableLiveData()
     val cityName : LiveData<String> get() = _cityName
 
-//    var cityName: String? = null
+    private var _forecast : MutableLiveData<Forecast> = MutableLiveData()
+    val forecast : LiveData<Forecast> get() = _forecast
 
+
+    fun setForecast(forecast: Forecast) {
+        _forecast.value = forecast
+    }
+
+    fun getForecast() : Forecast? = forecast.value
 
     fun setCityName(city: String) {
 //        _cityName.postValue(city)

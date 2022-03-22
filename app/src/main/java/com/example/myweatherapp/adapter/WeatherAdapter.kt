@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myweatherapp.databinding.ForecastItemBinding
+import com.example.myweatherapp.kelvinToFahrenheit
 import com.example.myweatherapp.model.Forecast
+import com.example.myweatherapp.roundToFloor
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -38,16 +40,6 @@ class WeatherViewHolder(
     private val binding: ForecastItemBinding,
     private val onForecastClicked: (Forecast) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-
-    fun kelvinToFahrenheit(kelvin: Double): Double {
-        return 1.8 * (kelvin - 273) + 32
-    }
-
-    fun roundToFloor(double: Double): String {
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.FLOOR
-        return df.format(double)
-    }
 
     fun bind(forecast: Forecast) {
         val temp = kelvinToFahrenheit(forecast.main.temp)

@@ -25,7 +25,8 @@ class ForecastFragment : BaseFragment() {
     }
 
     private val weatherAdapter by lazy {
-        WeatherAdapter(onForecastClicked = {
+        WeatherAdapter(onForecastClicked = {forecast ->
+            myViewModel.setForecast(forecast)
             findNavController().navigate(R.id.action_forecastFragment_to_detailsFragment)
         })
     }
